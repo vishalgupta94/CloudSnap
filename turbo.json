@@ -1,0 +1,14 @@
+{
+    "$schema": "https://turborepo.com/schema.json",
+    "tasks": {
+      "lint": {
+        "cache": true
+      },
+      "build": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": []
+      }
+    }
+  }

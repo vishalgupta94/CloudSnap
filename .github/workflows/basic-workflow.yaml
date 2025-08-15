@@ -1,0 +1,13 @@
+name: Basic workflow
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: ['main']
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: First step
+        runs: echo "First Step"
