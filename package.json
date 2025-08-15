@@ -1,0 +1,22 @@
+{
+  "name": "cloudsnap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "workspaces": [
+    "apps/**",
+    "packages/**"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "turbo": "^2.5.5"
+  }
+}
