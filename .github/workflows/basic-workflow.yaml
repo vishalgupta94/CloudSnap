@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: First step
-        runs: echo "First Step"
+        run: echo "First Step"
