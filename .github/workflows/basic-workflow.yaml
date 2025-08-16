@@ -20,3 +20,9 @@ jobs:
         with:
           role-to-assume: ${{ secrets.OIDC_ROLE_ARN }}
           aws-region: ap-south-1
+      
+      - name: CDK diff (optional)
+        run: npx cdk diff --all || true
+
+      - name: CDK deploy
+        run: npx cdk deploy --all $CDK_PARAMS          
