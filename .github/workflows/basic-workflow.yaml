@@ -15,6 +15,20 @@ jobs:
     steps:
       - name: First step
         run: echo "First Step"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -25,4 +39,4 @@ jobs:
         run: cd packages/infra && npx cdk diff --all || true
 
       - name: CDK deploy
-        run: cd packages/infra && npx cdk deploy --all $CDK_PARAMS          
+        run: cd packages/infra && npx cdk deploy --all          
