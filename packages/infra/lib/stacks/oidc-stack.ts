@@ -9,8 +9,8 @@ export class OIDCStack extends cdk.Stack {
     super(scope, id, props);
 
     const oidcProvider = this.createOIDCProvider()
-    this.createIAMRole(oidcProvider)
-
+    const role = this.createIAMRole(oidcProvider)
+    this.attachPermissions(role)
   }
 
   createOIDCProvider(){    
@@ -44,6 +44,8 @@ export class OIDCStack extends cdk.Stack {
         value: iamRole.roleArn,
         exportName: "GitHubDeployRoleArn"
     })
+
+    return iamRole
 
 
   }
