@@ -45,4 +45,4 @@ jobs:
         run: ls
 
       - name: CDK deploy
-        run: cd packages/infra && npx cdk deploy --all  --role-arn ${{ secrets.OIDC_ROLE_ARN }}      
+        run: cd packages/infra && npx cdk deploy --all  
