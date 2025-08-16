@@ -27,7 +27,7 @@ jobs:
           # cache-dependency-path: package-lock.json
 
       - name: Install deps
-        run: npm ci
+        run: npm i
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
