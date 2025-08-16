@@ -6,7 +6,7 @@ import {
   AssumeRoleWithWebIdentityCommand,
   AssumeRoleWithWebIdentityCommandInput,
 } from "@aws-sdk/client-sts";
-import { fromIni } from "@aws-sdk/credential-providers";
+// import { fromIni } from "@aws-sdk/credential-providers";
 
 import { getSignedUrl, S3RequestPresigner } from "@aws-sdk/s3-request-presigner";
 
