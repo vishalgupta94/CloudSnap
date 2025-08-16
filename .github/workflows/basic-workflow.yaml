@@ -22,7 +22,7 @@ jobs:
           aws-region: ap-south-1
       
       - name: CDK diff (optional)
-        run: npx cdk diff --all || true
+        run: cd packages/infra && npx cdk diff --all || true
 
       - name: CDK deploy
-        run: npx cdk deploy --all $CDK_PARAMS          
+        run: cd packages/infra && npx cdk deploy --all $CDK_PARAMS          
