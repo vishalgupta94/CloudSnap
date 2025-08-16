@@ -39,4 +39,4 @@ jobs:
         run: cd packages/infra && npx cdk diff --all || true
 
       - name: CDK deploy
-        run: cd packages/infra && npx cdk deploy --all          
+        run: npx cdk deploy --all          
