@@ -35,8 +35,14 @@ jobs:
           role-to-assume: ${{ secrets.OIDC_ROLE_ARN }}
           aws-region: ap-south-1
       
+      - name: First test
+        run: ls
+
       - name: CDK diff (optional)
         run: cd packages/infra && npx cdk diff --all || true
 
+      - name: Second test
+        run: ls
+
       - name: CDK deploy
-        run: npx cdk deploy --all          
+        run: cd packages/infra && npx cdk deploy --all  --role-arn ${{ secrets.OIDC_ROLE_ARN }}      
