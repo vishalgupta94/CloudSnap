@@ -42,6 +42,10 @@ export class CognitoStack extends Stack {
     });
     userPool.applyRemovalPolicy(RemovalPolicy.DESTROY);
     
+    new CfnOutput(this, "userPoolId", {
+      value: userPool.userPoolId
+    });
+
     return userPool
   }
 
@@ -81,6 +85,9 @@ export class CognitoStack extends Stack {
         domainPrefix: this.domainPrefix
       },
     });
+
+    // client id
+
     
   }
 

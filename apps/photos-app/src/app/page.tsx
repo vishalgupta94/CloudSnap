@@ -1,38 +1,25 @@
-
+"use client";
 
 export default function Home() {
+  const loginToCognito = () => {
+    console.log("process.env",process.env)
+    const url = new URL(`${process.env.NEXT_PUBLIC_COGNITO_BASE_URL}/oauth2/authorize`);
+    url.search = new URLSearchParams({
+      client_id: process.env.NEXT_PUBLIC_CLIENT_ID!,
+      response_type: process.env.NEXT_PUBLIC_RESPONSE_TYPE!,
+      scope: process.env.NEXT_PUBLIC_SCOPES!,
+      redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URI!
+    }).toString();
 
-  const loginToCognito = () =>  {
-
-  }
+    window.location.href = url.toString();
+  };
 
   return (
-    <div> Login using cognito
-      <button onClick={loginToCognito}></button>
-
+    <div>
+      Login using Cognito
+      <button type="button" onClick={loginToCognito}>
+        Login Cognito
+      </button>
     </div>
   );
 }
-
-/*
-import axios from "axios";
-
-const baseUrl = "https://photos-snap-domain.auth.ap-south-1.amazoncognito.com/login";
-
-const qs = new URLSearchParams({
-  client_id: "276hi3oehtmfjamteb35q3clru",
-  response_type: "code",
-  scope: "aws.cognito.signin.user.admin email openid phone profile",
-  redirect_uri: "http://localhost:3000/login",
-}).toString();
-
-const url = `${baseUrl}?${qs}`;
-
-const res = await axios.get(url, {
-  // maxRedirects: 0, // optional
-});
-console.log(url);       // full URL with encoded query string
-console.log(res.status);
-
-
-*/
