@@ -1,11 +1,11 @@
 'use client'
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import axios from 'axios'
 import qs from 'qs'
 import { useRouter } from "next/navigation";
 
-export default function Page() {
+function LoginContent() {
     const router = useRouter();
     const searchParams = useSearchParams()
     const code = searchParams.get('code');
@@ -67,12 +67,20 @@ export default function Page() {
       console.log("No authorization code found in URL");
     }
 
-    }, [code])
+    }, [code, router])
 
     return (
       <div> 
         Login
       </div>
     );
-  }
+}
+
+export default function Page() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginContent />
+        </Suspense>
+    );
+}
   
