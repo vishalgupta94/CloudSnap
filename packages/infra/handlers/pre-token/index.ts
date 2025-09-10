@@ -1,24 +1,25 @@
 import { PreTokenGenerationTriggerEvent, PreTokenGenerationTriggerHandler } from 'aws-lambda';
 import { createHash } from 'crypto';
 
-export const handler: PreTokenGenerationTriggerHandler = async (event:PreTokenGenerationTriggerEvent)=> {
+export const handler: PreTokenGenerationTriggerHandler = async (
+  event: PreTokenGenerationTriggerEvent,
+) => {
+  console.log('event', event);
+  const email = event.request.userAttributes['email'];
 
-    console.log("event",event);
-    const email = event.request.userAttributes['email']
+  if (!email) {
+    throw new Error('email not found');
+  }
 
-    if(!email){
-        throw new Error("email not found")
-    }
-
-    event.response = {
-       claimsOverrideDetails: {
-        claimsToAddOrOverride: {
-            "bucketPrefix": createHash('md5').update(email).digest('hex').substring(0, 14)
-        }
-       }
-    }
-    return event
-}
+  event.response = {
+    claimsOverrideDetails: {
+      claimsToAddOrOverride: {
+        bucketPrefix: createHash('md5').update(email).digest('hex').substring(0, 14),
+      },
+    },
+  };
+  return event;
+};
 
 // ```
 // {
