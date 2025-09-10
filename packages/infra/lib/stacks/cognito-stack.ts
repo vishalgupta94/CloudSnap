@@ -1,4 +1,10 @@
-import { CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import {
+  CfnOutput,
+  Duration,
+  RemovalPolicy,
+  Stack,
+  StackProps,
+} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { StringParameter } from 'aws-cdk-lib/aws-ssm';
@@ -24,7 +30,7 @@ import {
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { join } from 'path';
 import { HttpMethod } from 'aws-cdk-lib/aws-events';
-import { IdentityPool, UserPoolAuthenticationProvider } from 'aws-cdk-lib/aws-cognito-identitypool';
+import { IdentityPool, UserPoolAuthenticationProvider,  } from 'aws-cdk-lib/aws-cognito-identitypool';
 
 export class CognitoStack extends Stack {
   private readonly domainPrefix: string;
@@ -34,7 +40,8 @@ export class CognitoStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    ((this.domainPrefix = 'photos-snap-domain'), (this.loginURL = 'http://localhost:3000/login'));
+    ((this.domainPrefix = 'photos-snap-domain'),
+      (this.loginURL = 'http://localhost:3000/login'));
     this.logoutURL = 'http://localhost:3000/logout';
 
     const userPool = this.generateUserPool();
@@ -46,6 +53,7 @@ export class CognitoStack extends Stack {
   }
 
   createIdentityPool(userPool: cognito.UserPool, client: cognito.UserPoolClient) {
+
     const identityPool = new IdentityPool(this, 'MyIdentityPool', {
       identityPoolName: 'CloudSanpIdentityPool',
       allowUnauthenticatedIdentities: false,
@@ -53,10 +61,10 @@ export class CognitoStack extends Stack {
 
     const provider = new UserPoolAuthenticationProvider({
       userPool,
-      userPoolClient: client,
-    });
+      userPoolClient: client
+    })
 
-    identityPool.addUserPoolAuthentication(provider);
+    identityPool.addUserPoolAuthentication(provider)
 
     const inlinePolicy = new Policy(this, 'InlineS3Policy', {
       statements: [
@@ -84,18 +92,39 @@ export class CognitoStack extends Stack {
             's3:DeleteObject',
             's3:DeleteObjectVersion',
           ],
-          resources: ['arn:aws:s3:::cloud-snap-photos/${aws:PrincipalTag/bucketPrefix}/*'],
+          resources: [
+            'arn:aws:s3:::cloud-snap-photos/${aws:PrincipalTag/bucketPrefix}/*',
+          ],
         }),
         new PolicyStatement({
           sid: 'GetCredentials',
           effect: Effect.ALLOW,
-          actions: ['cognito-identity:GetCredentialsForIdentity'],
-          resources: ['*'],
+          actions: [
+            'cognito-identity:GetCredentialsForIdentity',
+          ],
+          resources: [
+            "*"
+          ],
         }),
       ],
     });
 
-    identityPool.authenticatedRole.attachInlinePolicy(inlinePolicy);
+    identityPool.authenticatedRole.attachInlinePolicy(inlinePolicy)
+
+    new cognito.CfnIdentityPoolPrincipalTag(this, 'PrincipalTagMap', {
+      identityPoolId: identityPool.identityPoolId,
+      identityProviderName: `cognito-idp.ap-south-1.amazonaws.com/${userPool.userPoolId}`,
+      principalTags: {
+        // Maps ID token claim "custom:bucketPrefix" to principal tag key "bucketPrefix"
+        bucketPrefix: 'bucketPrefix',
+        // More examples you can leverage in IAM policies:
+        // department: 'custom:department',
+        // email: 'email',
+        // sub: 'sub',
+      },
+      useDefaults: false, // set true to include default mappings (username/clientId)
+    });
+
   }
 
   generateUserPool(): cognito.UserPool {
@@ -124,7 +153,10 @@ export class CognitoStack extends Stack {
     });
     preTokenLambda.applyRemovalPolicy(RemovalPolicy.DESTROY);
 
-    userPool.addTrigger(cognito.UserPoolOperation.PRE_TOKEN_GENERATION, preTokenLambda);
+    userPool.addTrigger(
+      cognito.UserPoolOperation.PRE_TOKEN_GENERATION,
+      preTokenLambda,
+    );
   }
 
   attachClient(userPool: cognito.UserPool) {
@@ -146,7 +178,7 @@ export class CognitoStack extends Stack {
       value: client.userPoolClientId,
     });
 
-    return client;
+    return client
   }
 
   attachDomain(userPool: cognito.UserPool) {
