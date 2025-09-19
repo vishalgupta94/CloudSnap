@@ -52,6 +52,7 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           echo ${{ steps.login-ecr.outputs.registry }}
+          ${{ github.sha }}
           cd packages/infra/photos-app && docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG          
 
