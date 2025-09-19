@@ -26,23 +26,29 @@ jobs:
           # cache: npm
           # cache-dependency-path: package-lock.json
 
-      - name: Install deps
-        run: npm i
+      - name: Build the UI Image
+        run: docker build -t basic-ui .
 
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.OIDC_ROLE_ARN }}
-          aws-region: ap-south-1
+          # cache: npm
+          # cache-dependency-path: package-lock.json          
 
-      - name: First test
-        run: ls
+      # - name: Install deps
+      #   run: npm i
 
-      - name: CDK diff (optional)
-        run: cd packages/infra && npx cdk diff --all || true
+      # - name: Configure AWS credentials (OIDC)
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: ${{ secrets.OIDC_ROLE_ARN }}
+      #     aws-region: ap-south-1
 
-      - name: Second test
-        run: ls
+      # - name: First test
+      #   run: ls
 
-      - name: CDK deploy
-        run: cd packages/infra && npx cdk deploy --all
+      # - name: CDK diff (optional)
+      #   run: cd packages/infra && npx cdk diff --all || true
+
+      # - name: Second test
+      #   run: ls
+
+      # - name: CDK deploy
+      #   run: cd packages/infra && npx cdk deploy --all
