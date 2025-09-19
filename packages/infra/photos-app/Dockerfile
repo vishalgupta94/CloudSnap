@@ -10,5 +10,5 @@ RUN npm config set registry https://registry.npmjs.org/ && \
 
 # Copy package files and install dependencies
 COPY package.json ./
-COPY ../../package-lock.json ./
+COPY package-lock.json ./
 RUN npm i
