@@ -26,8 +26,8 @@ jobs:
           # cache: npm
           # cache-dependency-path: package-lock.json
 
-      - name: Build the UI Image
-        run: cd packages/infra/photos-app && docker build -t basic-ui .
+      # - name: Build the UI Image
+      #   run: cd packages/infra/photos-app && docker build -t basic-ui .
 
           # cache: npm
           # cache-dependency-path: package-lock.json          
